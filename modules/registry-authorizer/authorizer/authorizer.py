@@ -26,6 +26,11 @@ def lambda_handler(event: dict, context) -> dict:
 
 def decode_auth_token(auth_token: str) -> Optional[dict]:
     """Decodes the auth token"""
+    # add basic auth, using password as JWT token
+    if "Basic" in auth_token:
+        auth_token = auth_token.replace("Basic ", "")
+        auth_token = str(b64decode(auth_token))
+        auth_token = auth_token[auth_token.index(":") + 1 :-1]
     try:
         # remove "Bearer " from the token string.
         auth_token = auth_token.replace("Bearer ", "")
