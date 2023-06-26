@@ -15,5 +15,5 @@ resource "aws_api_gateway_authorizer" "main" {
   authorizer_credentials = aws_iam_role.auth[count.index].arn
   identity_source        = "method.request.header.Authorization"
 
-  depends_on = [aws_iam_role_policy.auth]
+  depends_on = [aws_iam_role.auth]
 }

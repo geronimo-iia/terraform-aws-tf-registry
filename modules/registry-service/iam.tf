@@ -49,14 +49,15 @@ resource "aws_iam_role" "auth" {
 
   inline_policy {
     name   = "lambda_invoke"
-    policy = data.aws_iam_policy_document.auth_inline_policy.json
+    policy = data.aws_iam_policy_document.auth_inline_policy[0].json
 
   }
 }
 
 data "aws_iam_policy_document" "auth_inline_policy" {
+  count = length(local.authorizers)
   statement {
     actions   = ["lambda:InvokeFunction"]
-    resources = [data.aws_lambda_function.auth[count.index].arn]
+    resources = [data.aws_lambda_function.auth[0].arn]
   }
 }
