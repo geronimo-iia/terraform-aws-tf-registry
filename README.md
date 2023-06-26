@@ -21,18 +21,16 @@ This is a fork from https://github.com/apparentlymart/terraform-aws-tf-registry,
 
 ### v1.0.2
 
-- add JWT secret creation and sharing with secret manager
-- add lambda autorizer for authentication
+- Use JWT secret creation and sharing with secret manager
+- Add lambda autorizer for authentication
 - automate API gateway redeployment
-- add dedicated bucket storage
-- add python script to deploy terraform module
-- add control of dynamodb capacity (provisioned, pay per request, ...)
-- add tags on resource
-- add dynamodb capacity management and custom naming
-- add bucket custom naming
-- add storage output
-- usage example
-- automate API update after change
+- Add dedicated bucket storage
+- Create [python client](https://github.com/geronimo-iia/terraform-aws-tf-registry-cli) to deploy terraform module
+- Tags resources
+- Add dynamodb capacity management and custom naming
+- Add bucket custom naming
+- Usage example
+- Automate API update after change
 
 
 With this registy implemnentation, you can add a module source from "anywhere" like git, http server, and s3 bucket.
@@ -53,9 +51,9 @@ Ths project has been battle tested in huge production workload since 2 years and
 
 ## v1.1.0 
 
-- add usage of "X-Terraform-Get" for download API
-- add a dedicated lambda integration for download API : use s3 presigned url for all module which came fron registry bucket
-- add tag on each resource, rewrote some iam declaration
+- Usage of "X-Terraform-Get" for download API
+- Add a dedicated lambda integration for download API : use s3 presigned url for all module which came fron registry bucket
+- Add tag on each resource, rewrote some iam declaration
 
 
 Note:
