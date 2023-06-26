@@ -6,6 +6,7 @@ from boto3 import client
 from base64 import b64decode
 import datetime
 
+# secret cache to minimize api call
 _secret, _dt = None, None
 
 
@@ -26,11 +27,6 @@ def lambda_handler(event: dict, context) -> dict:
 
 def decode_auth_token(auth_token: str) -> Optional[dict]:
     """Decodes the auth token"""
-    # add basic auth, using password as JWT token
-    if "Basic" in auth_token:
-        auth_token = auth_token.replace("Basic ", "")
-        auth_token = str(b64decode(auth_token))
-        auth_token = auth_token[auth_token.index(":") + 1 :-1]
     try:
         # remove "Bearer " from the token string.
         auth_token = auth_token.replace("Bearer ", "")
@@ -77,8 +73,7 @@ def get_secret():
 
     def _get_secret(secret_name: str):
         secret_value_response = client(
-            "secretsmanager", region_name="eu-west-1"
-        ).get_secret_value(SecretId=secret_name)
+            "secretsmanager",).get_secret_value(SecretId=secret_name)
         return (
             secret_value_response["SecretString"]
             if "SecretString" in secret_value_response

@@ -18,7 +18,6 @@ module "store" {
   tags        = var.tags
 }
 
-
 module "authorizer" {
   source          = "./modules/registry-authorizer"
   name_prefix     = var.name_prefix
@@ -31,6 +30,15 @@ module "authorizer" {
   ]
 }
 
+module "download" {
+  source      = "./modules/registry-download"
+  name_prefix = var.name_prefix
+  tags        = var.tags
+
+  store_policy        = module.store.store_policy
+  dynamodb_table_name = module.store.dynamodb_table_name
+  bucket_name         = module.store.bucket_name
+}
 
 module "registry" {
   source = "./modules/registry-service"
@@ -43,21 +51,16 @@ module "registry" {
   vpc_endpoint_ids       = var.vpc_endpoint_ids
   tags                   = var.tags
 
-  lambda_authorizer = {
-    type          = "TOKEN"
-    function_name = module.authorizer.function_name
-  }
+  lambda_authorizer_name = module.authorizer.function_name
+  lambda_download_name   = module.download.name
 
-  dynamodb_table_arn  = module.store.dynamodb_table_arn
+  store_policy        = module.store.store_policy
   dynamodb_table_name = module.store.dynamodb_table_name
-  bucket_arn          = module.store.bucket_arn
-  bucket_name         = module.store.bucket_name
 
   depends_on = [
     module.authorizer
   ]
 }
-
 
 resource "null_resource" "apigateway_create_deployment" {
   depends_on = [

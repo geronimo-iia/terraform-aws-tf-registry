@@ -1,4 +1,16 @@
 
+
+resource "aws_iam_role" "modules" {
+  name_prefix        = "${var.name_prefix}-modules"
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
+
+  inline_policy {
+    name   = "store"
+    policy = var.store_policy
+  }
+  tags = var.tags
+}
+
 data "aws_iam_policy_document" "assume_role_policy" {
   statement {
     effect  = "Allow"
@@ -10,54 +22,29 @@ data "aws_iam_policy_document" "assume_role_policy" {
   }
 }
 
-resource "aws_iam_role" "modules" {
-  name               = "${local.name_prefix}-modules"
-  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
-
-  inline_policy {
-    name   = "store"
-    policy = data.aws_iam_policy_document.modules_inline_policy.json
+data "aws_iam_policy_document" "module_inline_policy" {
+  statement {
+    actions   = ["lambda:InvokeFunction"]
+    resources = [data.aws_lambda_function.download.arn]
   }
 }
 
-
-data "aws_iam_policy_document" "modules_inline_policy" {
-  statement {
-    actions = ["dynamodb:Query",
-      "dynamodb:GetItem",
-      "dynamodb:BatchGetItem",
-      "dynamodb:GetRecords",
-    "dynamodb:Scan"]
-    resources = [var.dynamodb_table_arn]
-  }
-
-  statement {
-    actions = [
-      "s3:Get*",
-      "s3:List*",
-    ]
-    resources = [var.bucket_arn,
-    "${var.bucket_arn}/*"]
-  }
-}
 
 resource "aws_iam_role" "auth" {
-  count = length(local.authorizers)
-
-  name               = "${local.name_prefix}-authorizer"
+  name_prefix        = "${var.name_prefix}-authorizer"
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 
   inline_policy {
     name   = "lambda_invoke"
-    policy = data.aws_iam_policy_document.auth_inline_policy[0].json
+    policy = data.aws_iam_policy_document.auth_inline_policy.json
 
   }
+  tags = var.tags
 }
 
 data "aws_iam_policy_document" "auth_inline_policy" {
-  count = length(local.authorizers)
   statement {
     actions   = ["lambda:InvokeFunction"]
-    resources = [data.aws_lambda_function.auth[0].arn]
+    resources = [data.aws_lambda_function.auth.arn]
   }
 }

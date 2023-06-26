@@ -43,6 +43,6 @@ resource "aws_api_gateway_integration_response" "versions_GET_200" {
   status_code = aws_api_gateway_method_response.versions_GET_200.status_code
 
   response_templates = {
-    "application/json" = file("${path.module}/files/version_request.template")
+    "application/json" = file("${path.module}/version_request.template")
   }
 }

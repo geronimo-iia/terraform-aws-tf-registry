@@ -2,7 +2,20 @@
 
 ## v1.1.0 (next release)
 
-- ADD blob Api Entry point: add api entry point to create a proxy on dedicated bucket [like this example[(https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html#API_GetObject_Examples|).
+Fix:
+
+- refacto iam policy declaration
+- create shared common policy from storage module
+- remove unused code
+- simplify local variable usage
+- simplify code: authorizer is no more optional
+- propagate tags on role and resource
+- use terraforn name prefix for resources
+
+Feat:
+
+- add usage of "X-Terraform-Get" for download API
+- add a dedicated lambda integration for download API : use s3 presigned url for all module which came fron registry bucket
 
 ## v1.0.2
 

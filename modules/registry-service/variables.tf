@@ -1,18 +1,20 @@
-variable "friendly_hostname" {
-  type = object({
-    host                = string
-    acm_certificate_arn = string
-  })
-}
 
 variable "name_prefix" {
   type = string
 }
 
-variable "lambda_authorizer" {
+variable "lambda_authorizer_name" {
+  type = string
+}
+
+variable "lambda_download_name" {
+  type = string
+}
+
+variable "friendly_hostname" {
   type = object({
-    type          = string
-    function_name = string
+    host                = string
+    acm_certificate_arn = string
   })
 }
 
@@ -32,25 +34,15 @@ variable "vpc_endpoint_ids" {
   type = list(string)
 }
 
-variable "dynamodb_table_arn" {
-  type = string
-
-}
 variable "dynamodb_table_name" {
   type = string
 
 }
 
-variable "bucket_arn" {
-  type = string
+variable "store_policy" {
+  type = any
 }
-
-variable "bucket_name" {
-  type = string
-}
-
 
 variable "tags" {
   type = map(string)
 }
-

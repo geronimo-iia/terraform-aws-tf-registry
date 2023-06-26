@@ -12,7 +12,7 @@ data "external" "lambda_archive" {
   program = ["python", "${path.module}/scripts/build_lambda.py"]
   query = {
     src_dir              = "${path.module}/authorizer"
-    output_path          = "${path.module}/authorizer_package.zip"
+    output_path          = "authorizer_package.zip"
     install_dependencies = true
   }
 }
@@ -53,6 +53,7 @@ resource "aws_iam_role" "authorizer" {
     name   = "authorizer"
     policy = data.aws_iam_policy_document.authorizer.json
   }
+  tags = var.tags
 }
 
 data "aws_iam_policy_document" "authorizer" {

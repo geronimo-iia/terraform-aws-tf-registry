@@ -19,3 +19,11 @@ variable "custom_authorizer_id" {
   description = "ID for optional API Gateway custom authorizer to apply to all of the API methods. If not set, the API methods do not require authorization."
   default     = null
 }
+
+variable "lambda_download_invoke_arn" {
+  type = string
+}
+
+variable "lambda_download_name" {
+  type = string
+}

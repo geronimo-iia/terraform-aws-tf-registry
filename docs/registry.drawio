@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2023-06-21T13:16:58.136Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.1.2 Chrome/106.0.5249.199 Electron/21.4.3 Safari/537.36" version="21.1.2" etag="ayJuucZavajm4cIx1vy-" type="device">
+<mxfile host="Electron" modified="2023-06-26T18:18:28.541Z" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/21.1.2 Chrome/106.0.5249.199 Electron/21.4.3 Safari/537.36" etag="gbAeUeijrRZ2ihV27oDk" version="21.1.2" type="device">
   <diagram id="mNsShr_BQo4JJpDMKRNh" name="Page-1">
     <mxGraphModel dx="2373" dy="894" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -72,7 +72,7 @@
           <mxGeometry x="365" y="380" width="60" height="61.5" as="geometry" />
         </mxCell>
         <mxCell id="g6Gx99K3s5N-sFk9b2kl-5" value="Store terraform archive" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
-          <mxGeometry x="550" y="400" width="134" height="10" as="geometry" />
+          <mxGeometry x="490" y="420" width="134" height="10" as="geometry" />
         </mxCell>
         <mxCell id="g6Gx99K3s5N-sFk9b2kl-7" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=2;exitX=0.94;exitY=0.5;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="g6Gx99K3s5N-sFk9b2kl-1" target="g6Gx99K3s5N-sFk9b2kl-5" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
@@ -96,14 +96,22 @@
             <mxPoint as="offset" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="KDXn3110f5-E7-CBsHhQ-1" value="publish" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.android;fillColor=#FFD44F;gradientColor=none;" parent="1" vertex="1">
-          <mxGeometry x="740" y="251.5" width="53.5" height="64" as="geometry" />
+        <mxCell id="U9l2dWHvZ6yoO3CKzOyu-1" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.995;entryY=0.63;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="KDXn3110f5-E7-CBsHhQ-1" target="rd6ysX6Xpo18R3xRQxCN-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="U9l2dWHvZ6yoO3CKzOyu-2" value="generate-token" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="U9l2dWHvZ6yoO3CKzOyu-1">
+          <mxGeometry x="0.1049" y="-3" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="KDXn3110f5-E7-CBsHhQ-1" value="terraform-aws-tf-registry-cli" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.android;fillColor=#FFD44F;gradientColor=none;" parent="1" vertex="1">
+          <mxGeometry x="756.5" y="210" width="53.5" height="64" as="geometry" />
         </mxCell>
         <mxCell id="KDXn3110f5-E7-CBsHhQ-3" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" parent="1" source="KDXn3110f5-E7-CBsHhQ-2" target="KDXn3110f5-E7-CBsHhQ-1" edge="1">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="KDXn3110f5-E7-CBsHhQ-2" value="producer" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
-          <mxGeometry x="850" y="253.5" width="30" height="60" as="geometry" />
+        <mxCell id="KDXn3110f5-E7-CBsHhQ-2" value="admin&lt;br&gt;&amp;amp;&lt;br&gt;producer" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" parent="1" vertex="1">
+          <mxGeometry x="890" y="210" width="30" height="60" as="geometry" />
         </mxCell>
         <mxCell id="KDXn3110f5-E7-CBsHhQ-8" value="acme" style="sketch=0;html=1;aspect=fixed;strokeColor=none;shadow=0;fillColor=#3B8DF1;verticalAlign=top;labelPosition=center;verticalLabelPosition=bottom;shape=mxgraph.gcp2.lock" parent="1" vertex="1">
           <mxGeometry x="257" y="217.6" width="28" height="35.9" as="geometry" />
@@ -111,26 +119,11 @@
         <mxCell id="KDXn3110f5-E7-CBsHhQ-11" value="&lt;i&gt;https&lt;/i&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
           <mxGeometry x="285" y="175" width="50" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="TIR1LHeSplM7VyRILoW0-1" value="HTTPS, signed" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
-          <mxGeometry x="150" y="410" width="100" height="30" as="geometry" />
+        <mxCell id="TIR1LHeSplM7VyRILoW0-1" value="HTTPS, s3 signed url" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="130" y="410" width="140" height="30" as="geometry" />
         </mxCell>
-        <mxCell id="TIR1LHeSplM7VyRILoW0-2" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.iam;fillColor=#759C3E;gradientColor=none;" vertex="1" parent="1">
-          <mxGeometry x="900" y="300" width="22" height="51" as="geometry" />
-        </mxCell>
-        <mxCell id="TIR1LHeSplM7VyRILoW0-4" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.94;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="TIR1LHeSplM7VyRILoW0-3" target="rd6ysX6Xpo18R3xRQxCN-5">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="TIR1LHeSplM7VyRILoW0-3" value="generate-token" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.android;fillColor=#FFD44F;gradientColor=none;" vertex="1" parent="1">
-          <mxGeometry x="720" y="44" width="53.5" height="64" as="geometry" />
-        </mxCell>
-        <mxCell id="TIR1LHeSplM7VyRILoW0-7" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="TIR1LHeSplM7VyRILoW0-5" target="TIR1LHeSplM7VyRILoW0-3">
-          <mxGeometry relative="1" as="geometry" />
-        </mxCell>
-        <mxCell id="TIR1LHeSplM7VyRILoW0-5" value="Admin" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" vertex="1" parent="1">
-          <mxGeometry x="860" y="46" width="30" height="60" as="geometry" />
-        </mxCell>
-        <mxCell id="TIR1LHeSplM7VyRILoW0-6" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.iam;fillColor=#759C3E;gradientColor=none;" vertex="1" parent="1">
-          <mxGeometry x="910" y="90" width="22" height="51" as="geometry" />
+        <mxCell id="TIR1LHeSplM7VyRILoW0-2" value="" style="outlineConnect=0;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;shape=mxgraph.aws3.iam;fillColor=#759C3E;gradientColor=none;" parent="1" vertex="1">
+          <mxGeometry x="940" y="274" width="22" height="51" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
