@@ -44,7 +44,7 @@ resource "aws_lambda_function" "authorizer" {
 # --------------------------------------------------------
 
 resource "aws_iam_role" "authorizer" {
-  name               = local.function_name
+  name_prefix        = local.function_name
   assume_role_policy = data.aws_iam_policy_document.authorizer_assume_role_policy.json
   managed_policy_arns = [
     "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
