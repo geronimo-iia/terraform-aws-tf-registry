@@ -81,7 +81,7 @@ dist/
 .DS_Store
 
 
-authorizer_package.zip
+*.zip
 
 *.bkp
 *.dtmp

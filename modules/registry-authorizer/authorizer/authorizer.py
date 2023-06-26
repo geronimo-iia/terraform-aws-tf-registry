@@ -6,6 +6,7 @@ from boto3 import client
 from base64 import b64decode
 import datetime
 
+# secret cache to minimize api call
 _secret, _dt = None, None
 
 
@@ -72,8 +73,7 @@ def get_secret():
 
     def _get_secret(secret_name: str):
         secret_value_response = client(
-            "secretsmanager", region_name="eu-west-1"
-        ).get_secret_value(SecretId=secret_name)
+            "secretsmanager",).get_secret_value(SecretId=secret_name)
         return (
             secret_value_response["SecretString"]
             if "SecretString" in secret_value_response

@@ -19,6 +19,8 @@ This is a fork from https://github.com/apparentlymart/terraform-aws-tf-registry,
 
 ## Features :
 
+### v1.0.2
+
 - add JWT secret creation and sharing with secret manager
 - add lambda autorizer for authentication
 - automate API gateway redeployment
@@ -48,6 +50,20 @@ No need to give public access to your bucket. [Read S3 Bucket](https://developer
 > All management use case around this private terraform registry can be handled by [this python client](https://github.com/geronimo-iia/terraform-aws-tf-registry-cli)
 
 Ths project has been battle tested in huge production workload since 2 years and cost less than 10$ per month.
+
+## v1.1.0 
+
+- add usage of "X-Terraform-Get" for download API
+- add a dedicated lambda integration for download API : use s3 presigned url for all module which came fron registry bucket
+- add tag on each resource, rewrote some iam declaration
+
+
+Note:
+
+- Using presigned s3 url,  permit us to use this registry from other platform with no direct credentials with aws. They just see an https url.
+- simplify sharing in a multi account context : we just manage JWT token
+
+
 
 ## Terraform private registry design
 
@@ -266,109 +282,9 @@ resource "aws_route53_record" "registry" {
 
 If you wanna use this project in production (like me...), I thinks that you should follow this tricks:
 
-1. fork this project into your entrprise git server and add a remote branch 'github' to this repository
-2. adjust variable of example 'registry' to deploy it in a quick and not so dirty mode :)
-3. publish a dummy terraform module, see how it's managed in the dynamodb, test a `terraform init` etc...
-4. integrate the python client into your ci
-
-### Assume role and terraform trouble with `aws-mfa`
-
-If you have an iam user with aws key configured to use with your terraform provider, you will not facing any issue.
-
-Most often, we use multiple assume role in order to manage multiple aws account for the same entreprise.
-And most often it works very well :)
-
-But (...) I faced an issue with the python module 'aws-mfa' recently, that i wanna share. If you known what's wrong, let me known :)
-
-With a configuration like this:
-
-```text
-[profile myorg-shared-mfa-long-term]
-region=eu-west-1
-output=json
-
-[profile myorg-shared-mfa]
-region=eu-west-1
-output=json
-
-[profile myorg-prod-admin]
-region=eu-west-1
-role_arn = arn:aws:iam::123456789:role/myorg-admin
-source_profile = myorg-shared-mfa
-
-```
-
-and credential like this:
-
-```text
-[profile myorg-shared-mfa-long-term] # here we store our iam user key
-aws_access_key_id = AAAAAA
-aws_secret_access_key = BBBBBBB
-aws_mfa_device = arn:aws:iam::0000000:mfa/contact@myorg.com
-
-[myorg-shared-mfa]
-aws_mfa_device = arn:aws:iam::0000000:mfa/contact@myorg.com
-aws_access_key_id = 
-aws_secret_access_key = 
-
-```
-
-If you do this for your `terraform init`, it will failed with a `NoCredentialProviders: no valid providers in chain`:
-
-```bash
-aws-mfa --profile myorg-shared-mfa --force 
-export AWS_PROFILE="myorg-prod-admin"
-```
-
-BUT, with this, `terraform init` will be happy :
-
-```bash
-aws-mfa --profile myorg-shared-mfa --force --assume-role arn:aws:iam::123456789:role/myorg-admin
-export AWS_PROFILE="myorg-shared-mfa"
-```
-
-Strange isn't it ? 
-As an '--assume-role' option preconfigure all environment variables, "maybe" terraform probably fail to read all runtime information of a client session on 'myorg-shared-mfa'.
-
-
-### few bash command line for testing
-
-
-```bash
-curl https://registry-my-domain.com/.well-known/terraform.json
-> {"modules.v1":"/modules.v1/"}
-```
-
-```bash
-curl https://registry-my-domain.com/modules.v1/
-> {"message":"Missing Authentication Token"}
-```
-
-```bash
-curl -H 'Accept: application/json' -H "Authorization: Bearer ${JWT_TOKEN}"  https://registry-my-domain.com/modules.v1/my-org/aws/kinesis-firehose/versions
-```
-
-```bash
->>
-{
-    "modules": [
-        {
-            "versions": [
-                {"version": "0.4.4"}            ]
-        }
-    ]
-}
-```
-
-```bash
-curl -H 'Accept: application/json' -H "Authorization: Bearer ${JWT_TOKEN}"  https://registry-my-domain.com/modules.v1/my-org/aws/kinesis-firehose/0.4.4/download
-```
-
-```bash
->>
-{
-  "version": "{S=0.4.4}",
-  "source": "{S=https:\/\/github..com\/my-org\/terraform-modules\/terraform-aws-kinesis-firehose.git?ref=v1.2.0}",
-}
-```
-
+1. Fork this project into your entrprise git server and add a remote branch 'github' to this repository
+2. Adjust variable of example 'registry' to deploy it in a quick and not so dirty mode :)
+3. Publish a dummy terraform module, see how it's managed in the dynamodb, test a `terraform init` etc...
+   Use [this python client](https://github.com/geronimo-iia/terraform-aws-tf-registry-cli).
+4. Integrate the python client into your ci
+5. Have a look on [notes](./docs/note.md)

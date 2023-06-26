@@ -15,3 +15,7 @@ output "bucket_name" {
 output "bucket_arn" {
   value = aws_s3_bucket.bucket.arn
 }
+
+output "store_policy" {
+  value = data.aws_iam_policy_document.store_policy.json
+}

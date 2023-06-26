@@ -1,5 +1,21 @@
 # Changelog
 
+## v1.1.0 (next release)
+
+Fix:
+
+- refacto iam policy declaration
+- create shared common policy from storage module
+- remove unused code
+- simplify local variable usage
+- simplify code: authorizer is no more optional
+- propagate tags on role and resource
+- use terraforn name prefix for resources
+
+Feat:
+
+- add usage of "X-Terraform-Get" for download API
+- add a dedicated lambda integration for download API : use s3 presigned url for all module which came fron registry bucket
 
 ## v1.0.2
 

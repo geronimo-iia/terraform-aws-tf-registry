@@ -1,12 +1,10 @@
 variable "rest_api_id" {
   type        = string
-  description = "The id of the API Gateway REST API that contains the given parent_resource_id."
+  description = "The id of the API Gateway REST API where a discovery document will be added."
 }
 
-
-variable "dynamodb_table_name" {
-  type        = string
-  description = "The name of an already-existing DynamoDB table created by the sibling \"modules-store\" module."
+variable "bucket_name" {
+  type = string
 }
 
 variable "credentials_role_arn" {
@@ -18,12 +16,4 @@ variable "custom_authorizer_id" {
   type        = string
   description = "ID for optional API Gateway custom authorizer to apply to all of the API methods. If not set, the API methods do not require authorization."
   default     = null
-}
-
-variable "lambda_download_invoke_arn" {
-  type = string
-}
-
-variable "lambda_download_name" {
-  type = string
 }

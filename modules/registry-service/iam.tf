@@ -1,61 +1,50 @@
+
+
 resource "aws_iam_role" "modules" {
-  name = "${local.name_prefix}-modules"
+  name_prefix        = "${var.name_prefix}-modules"
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 
-  assume_role_policy = jsonencode(local.api_gateway_assume_policy)
+  inline_policy {
+    name   = "store"
+    policy = var.store_policy
+  }
+  tags = var.tags
 }
 
-resource "aws_iam_role_policy" "modules" {
-  role = aws_iam_role.modules.name
-
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect = "Allow"
-        Action = [
-          "dynamodb:Query",
-          "dynamodb:GetItem",
-          "dynamodb:BatchGetItem",
-          "dynamodb:GetRecords",
-          "dynamodb:Scan",
-        ]
-        Resource = [
-          var.dynamodb_table_arn
-        ],
-      },
-      {
-        Effect = "Allow"
-        Action = [
-          "s3:Get*",
-        ]
-        Resource = [
-          var.bucket_arn,
-          "${var.bucket_arn}/*"
-        ]
-      }
-    ]
-  })
+data "aws_iam_policy_document" "assume_role_policy" {
+  statement {
+    effect  = "Allow"
+    actions = ["sts:AssumeRole"]
+    principals {
+      type        = "Service"
+      identifiers = ["apigateway.amazonaws.com"]
+    }
+  }
 }
+
+data "aws_iam_policy_document" "module_inline_policy" {
+  statement {
+    actions   = ["lambda:InvokeFunction"]
+    resources = [data.aws_lambda_function.download.arn]
+  }
+}
+
 
 resource "aws_iam_role" "auth" {
-  count = length(local.authorizers)
+  name_prefix        = "${var.name_prefix}-authorizer"
+  assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
 
-  name               = "${local.name_prefix}-authorizer"
-  assume_role_policy = jsonencode(local.api_gateway_assume_policy)
+  inline_policy {
+    name   = "lambda_invoke"
+    policy = data.aws_iam_policy_document.auth_inline_policy.json
+
+  }
+  tags = var.tags
 }
 
-resource "aws_iam_role_policy" "auth" {
-  count = length(local.authorizers)
-
-  role = aws_iam_role.auth[count.index].name
-  policy = jsonencode({
-    Version = "2012-10-17"
-    Statement = [
-      {
-        Effect   = "Allow"
-        Action   = "lambda:InvokeFunction"
-        Resource = data.aws_lambda_function.auth[count.index].arn,
-      },
-    ]
-  })
+data "aws_iam_policy_document" "auth_inline_policy" {
+  statement {
+    actions   = ["lambda:InvokeFunction"]
+    resources = [data.aws_lambda_function.auth.arn]
+  }
 }
