@@ -52,7 +52,7 @@ Ths project has been battle tested in huge production workload since 2 years and
 ## v1.1.0 
 
 - Usage of "X-Terraform-Get" for download API
-- Add a dedicated lambda integration for download API : use s3 presigned url for all module which came fron registry bucket
+- Add a dedicated lambda integration for download API : use s3 presigned url for all module which came from registry bucket
 - Add tag on each resource, rewrote some iam declaration
 
 
@@ -285,4 +285,4 @@ If you wanna use this project in production (like me...), I thinks that you shou
 3. Publish a dummy terraform module, see how it's managed in the dynamodb, test a `terraform init` etc...
    Use [this python client](https://github.com/geronimo-iia/terraform-aws-tf-registry-cli).
 4. Integrate the python client into your ci
-5. Have a look on [notes](./docs/note.md)
+5. Have a look on [notes](https://github.com/geronimo-iia/terraform-aws-tf-registry/blob/main/docs/note.md)
