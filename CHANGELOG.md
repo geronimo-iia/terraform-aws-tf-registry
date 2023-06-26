@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.1.0 (next release)
+## v1.1.0
 
 Fix:
 
