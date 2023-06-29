@@ -18,7 +18,6 @@ resource "aws_api_gateway_integration" "download_GET" {
 }
 
 resource "aws_lambda_permission" "apigw_lambda_download" {
-  statement_id  = "AllowExecutionFromAPIGateway"
   action        = "lambda:InvokeFunction"
   function_name = var.lambda_download_name
   principal     = "apigateway.amazonaws.com"
