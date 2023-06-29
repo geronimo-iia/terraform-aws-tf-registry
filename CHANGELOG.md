@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.1.1
+
+Fix:
+
+- archive path for lambda authorizer
+- aws provider version
+- remove constant statement id "AllowExecutionFromAPIGateway"
+
 ## v1.1.0
 
 Fix:
