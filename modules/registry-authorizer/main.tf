@@ -12,7 +12,7 @@ data "external" "lambda_archive" {
   program = ["python", "${path.module}/scripts/build_lambda.py"]
   query = {
     src_dir              = "${path.module}/authorizer"
-    output_path          = "authorizer_package.zip"
+    output_path          = "${path.module}/authorizer_package.zip"
     install_dependencies = true
   }
 }
