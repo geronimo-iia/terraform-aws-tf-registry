@@ -1,0 +1,6 @@
+terraform 1.5.0
+terraform-docs 0.16.0
+tflint 0.47.0
+terragrunt 0.50.6
+tfsec 1.28.1
+checkov 2.4.6
