@@ -36,21 +36,13 @@ jobs:
           . "${ASDF_DIR}/asdf.sh"
           asdf version
           echo "Installing ASDF plugins"
-          asdf plugin add terraform
-          asdf plugin add terragrunt
-          asdf plugin add terraform-docs
-          asdf plugin add tflint
           asdf plugin add tfsec
           asdf plugin add checkov
           echo "Installing tools"
-          asdf install terraform
-          asdf install terraform-docs
-          asdf install tflint
-          asdf install terragrunt
           asdf install tfsec
           asdf install checkov
       - name: checkov
-        run: checkov -d . --quiet --framework terraform --config-file checkov.yaml
+        run: . "${ASDF_DIR}/asdf.sh" && checkov -d . --quiet --framework terraform --config-file checkov.yaml
       - name: tfsec
-        run: tfsec .
+        run: . "${ASDF_DIR}/asdf.sh" && tfsec .
   
