@@ -65,7 +65,9 @@ resource "null_resource" "apigateway_create_deployment" {
     module.registry
   ]
   provisioner "local-exec" {
-    command     = "aws apigateway create-deployment --rest-api-id ${module.registry.rest_api_id} --stage-name ${module.registry.rest_api_stage_name}"
+    command     = "aws apigateway create-deployment --rest-api-id ${module.registry.rest_api_id} --stage-name ${module.registry.rest_api_stage_name} "
     interpreter = ["/bin/bash", "-c"]
+    on_failure = "continue"
   }
+
 }
