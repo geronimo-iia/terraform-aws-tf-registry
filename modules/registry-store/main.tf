@@ -26,9 +26,8 @@ resource "aws_dynamodb_table" "modules" {
     type = "S"
   }
 
-  server_side_encryption {
+  server_side_encryption { # default alias/aws/dynamodb
     enabled     = true
-    kms_key_arn = "aws/dynamodb"
   }
 
   point_in_time_recovery {
