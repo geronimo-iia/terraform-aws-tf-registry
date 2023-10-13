@@ -10,7 +10,9 @@ env:
 
 on:
   push:
-    branches: ["main"]
+    branches: 
+      - "main"
+      - "feature/*"
   pull_request:
     branches: ["main"]
   schedule:
