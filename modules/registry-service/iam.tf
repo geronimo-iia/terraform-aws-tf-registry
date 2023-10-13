@@ -8,6 +8,12 @@ resource "aws_iam_role" "modules" {
     name   = "store"
     policy = var.store_policy
   }
+
+  inline_policy {
+    name   = "download"
+    policy = data.aws_iam_policy_document.module_inline_policy.json
+  }
+
   tags = var.tags
 }
 

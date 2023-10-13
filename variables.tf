@@ -70,7 +70,6 @@ variable "storage" {
   }
 }
 
-
 variable "secret_key_name" {
   type        = string
   description = "Optional AWS Secret name to store JWT secret"
@@ -81,4 +80,27 @@ variable "kms_key_id" {
   type        = string
   description = "Optional custom kms key id (default aws/secretsmanager)"
   default     = null
+}
+
+
+variable "s3_public_access" {
+  description = "Bucket Public Access Block"
+  type = object({
+    block_public_acls       = bool,
+    ignore_public_acls      = bool,
+    block_public_policy     = bool,
+    restrict_public_buckets = bool
+  })
+  default = {
+    block_public_acls : true
+    ignore_public_acls : true
+    block_public_policy : true
+    restrict_public_buckets : true
+  }
+}
+
+variable "dynamodb_enable_point_in_time_recovery" {
+  type        = bool
+  default     = true
+  description = "Enable DynamoDB point in time recovery"
 }

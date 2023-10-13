@@ -6,6 +6,10 @@ resource "aws_api_gateway_rest_api" "root" {
   }
   policy = local.api_access_policy
   tags   = merge(var.tags, { Name : var.name_prefix })
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 

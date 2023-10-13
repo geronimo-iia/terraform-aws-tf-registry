@@ -8,10 +8,12 @@ module "jwt" {
 }
 
 module "store" {
-  source      = "./modules/registry-store"
-  name_prefix = var.name_prefix
-  storage     = var.storage
-  tags        = var.tags
+  source                        = "./modules/registry-store"
+  name_prefix                   = var.name_prefix
+  storage                       = var.storage
+  tags                          = var.tags
+  public_access                 = var.s3_public_access
+  enable_point_in_time_recovery = var.dynamodb_enable_point_in_time_recovery
 }
 
 module "authorizer" {

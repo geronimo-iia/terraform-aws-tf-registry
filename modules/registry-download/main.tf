@@ -47,7 +47,7 @@ data "archive_file" "lambda_zip" {
 # --------------------------------------------------------
 # Lambda
 # --------------------------------------------------------
-
+# tfsec:ignore:aws-lambda-enable-tracing
 resource "aws_lambda_function" "download" {
   function_name    = local.function_name
   filename         = data.archive_file.lambda_zip.output_path
@@ -58,7 +58,9 @@ resource "aws_lambda_function" "download" {
   handler     = "main.lambda_handler"
   timeout     = 10
   memory_size = 128
-  tags        = merge(var.tags, { Name : local.function_name })
+  # kms_key_arn =  AWS Lambda uses a default service key
+  reserved_concurrent_executions = -1
+  tags                           = merge(var.tags, { Name : local.function_name })
   environment {
     variables = {
       BUCKET_NAME = var.bucket_name

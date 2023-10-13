@@ -9,7 +9,7 @@ locals {
   }
 
   region_name = data.aws_region.region.name
-  account_id = data.aws_caller_identity.current.account_id
+  account_id  = data.aws_caller_identity.current.account_id
 }
 
 data "aws_region" "region" {}
