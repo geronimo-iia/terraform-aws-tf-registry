@@ -23,5 +23,5 @@ resource "aws_lambda_permission" "apigw_lambda_download" {
   principal     = "apigateway.amazonaws.com"
 
   # More: http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-control-access-using-iam-policies-to-invoke-api.html
-  source_arn = "arn:aws:execute-api:${local.region_name}:${local.account_id}:${ var.rest_api_id}/*/${aws_api_gateway_method.download_GET.http_method}${aws_api_gateway_resource.download.path}"
+  source_arn = "arn:aws:execute-api:${local.region_name}:${local.account_id}:${var.rest_api_id}/*/${aws_api_gateway_method.download_GET.http_method}${aws_api_gateway_resource.download.path}"
 }

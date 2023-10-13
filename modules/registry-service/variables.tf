@@ -1,14 +1,24 @@
-
 variable "name_prefix" {
-  type = string
+  description = "Name prefix for resources"
+  type        = string
 }
 
+
+variable "tags" {
+  type        = map(string)
+  description = "Resource tags"
+  default     = {}
+}
+
+
 variable "lambda_authorizer_name" {
-  type = string
+  description = "lambda authorizer name "
+  type        = string
 }
 
 variable "lambda_download_name" {
-  type = string
+  description = "lambda download name"
+  type        = string
 }
 
 variable "friendly_hostname" {
@@ -43,6 +53,3 @@ variable "store_policy" {
   type = any
 }
 
-variable "tags" {
-  type = map(string)
-}

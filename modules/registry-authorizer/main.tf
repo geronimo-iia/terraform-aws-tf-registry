@@ -21,6 +21,7 @@ data "external" "lambda_archive" {
 # Lambda
 # --------------------------------------------------------
 
+# tfsec:ignore:aws-lambda-enable-tracing
 resource "aws_lambda_function" "authorizer" {
   function_name    = local.function_name
   filename         = data.external.lambda_archive.result.archive
@@ -31,7 +32,9 @@ resource "aws_lambda_function" "authorizer" {
   handler     = "authorizer.lambda_handler"
   timeout     = 10
   memory_size = 128
-  tags        = merge(var.tags, { Name : local.function_name })
+  # kms_key_arn =  AWS Lambda uses a default service key
+  reserved_concurrent_executions = -1
+  tags                           = merge(var.tags, { Name : local.function_name })
   environment {
     variables = {
       SECRET_KEY_NAME = var.secret_key_name
@@ -56,6 +59,7 @@ resource "aws_iam_role" "authorizer" {
   tags = var.tags
 }
 
+# tfsec:ignore:aws-iam-no-policy-wildcards readonly for specific secret
 data "aws_iam_policy_document" "authorizer" {
   statement {
     effect = "Allow"

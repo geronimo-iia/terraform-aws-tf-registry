@@ -1,0 +1,48 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: security
+env:
+  ASDF_DIR: "/opt/asdf"
+  ASDF_VERSION: "v0.12.0"
+
+on:
+  push:
+    branches: 
+      - "main"
+      - "feature/*"
+  pull_request:
+    branches: ["main"]
+  schedule:
+    - cron: "37 0 * * 0"
+
+jobs:
+  security:
+    name: Run checkov, tfsec scan
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v3
+      - name: Installing ASDF and tools
+        run: |
+          git clone https://github.com/asdf-vm/asdf.git ${ASDF_DIR} --branch ${ASDF_VERSION}
+          . "${ASDF_DIR}/asdf.sh"
+          asdf version
+          echo "Installing ASDF plugins"
+          asdf plugin add tfsec
+          asdf plugin add checkov
+          echo "Installing tools"
+          asdf install tfsec
+          asdf install checkov
+      - name: checkov
+        run: . "${ASDF_DIR}/asdf.sh" && checkov -d . --quiet --framework terraform --config-file checkov.yaml
+      - name: tfsec
+        run: . "${ASDF_DIR}/asdf.sh" && tfsec .
+  

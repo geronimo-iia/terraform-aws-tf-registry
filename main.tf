@@ -1,8 +1,4 @@
 
-locals {
-  storage_name = "${var.name_prefix}-modules"
-}
-
 module "jwt" {
   source          = "./modules/registry-jwt"
   secret_key_name = var.secret_key_name != null ? var.secret_key_name : "${var.name_prefix}-jwt"
@@ -12,10 +8,12 @@ module "jwt" {
 }
 
 module "store" {
-  source      = "./modules/registry-store"
-  name_prefix = var.name_prefix
-  storage     = var.storage
-  tags        = var.tags
+  source                        = "./modules/registry-store"
+  name_prefix                   = var.name_prefix
+  storage                       = var.storage
+  tags                          = var.tags
+  public_access                 = var.s3_public_access
+  enable_point_in_time_recovery = var.dynamodb_enable_point_in_time_recovery
 }
 
 module "authorizer" {
@@ -67,7 +65,9 @@ resource "null_resource" "apigateway_create_deployment" {
     module.registry
   ]
   provisioner "local-exec" {
-    command     = "aws apigateway create-deployment --rest-api-id ${module.registry.rest_api_id} --stage-name ${module.registry.rest_api_stage_name}"
+    command     = "aws apigateway create-deployment --rest-api-id ${module.registry.rest_api_id} --stage-name ${module.registry.rest_api_stage_name} "
     interpreter = ["/bin/bash", "-c"]
+    on_failure = continue
   }
+
 }

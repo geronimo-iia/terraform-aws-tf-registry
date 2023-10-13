@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.2.2
+
+Feature:
+
+- add default encryption on s3 bucket and dynamo table
+- add Enable DynamoDB point in time recovery
+- add checkov and tfsec scan
+
+Fix:
+
+- public acl on s3
+- api gateway invoke download url acl
+
 ## v1.1.1
 
 Fix:

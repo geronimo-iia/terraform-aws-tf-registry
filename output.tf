@@ -36,9 +36,11 @@ output "dynamodb_table_arn" {
 
 
 output "bucket_name" {
+  description = "Bucket name"
   value = module.store.bucket_name
 }
 
 output "bucket_arn" {
+  description = "Bucket arn"
   value = module.store.bucket_arn
 }
