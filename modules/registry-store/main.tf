@@ -25,7 +25,7 @@ resource "aws_dynamodb_table" "modules" {
     name = "Version"
     type = "S"
   }
-
+  #tfsec:ignore:aws-dynamodb-table-customer-key less cost 
   server_side_encryption { # default alias/aws/dynamodb
     enabled     = true
   }
