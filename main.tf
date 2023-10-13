@@ -1,8 +1,4 @@
 
-locals {
-  storage_name = "${var.name_prefix}-modules"
-}
-
 module "jwt" {
   source          = "./modules/registry-jwt"
   secret_key_name = var.secret_key_name != null ? var.secret_key_name : "${var.name_prefix}-jwt"
