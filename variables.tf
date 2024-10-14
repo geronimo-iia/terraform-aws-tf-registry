@@ -104,3 +104,9 @@ variable "dynamodb_enable_point_in_time_recovery" {
   default     = true
   description = "Enable DynamoDB point in time recovery"
 }
+
+variable "enable_providers" {
+  type        = bool
+  default = false
+  description = "Enable providers api"
+}

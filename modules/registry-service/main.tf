@@ -38,6 +38,7 @@ module "modules_v1" {
   lambda_download_invoke_arn = data.aws_lambda_function.download.invoke_arn
 }
 
+# hostname/.well-known/terraform.json.
 module "disco" {
   source = "./modules/disco"
 
