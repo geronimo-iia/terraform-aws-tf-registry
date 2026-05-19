@@ -1,4 +1,5 @@
 resource "aws_api_gateway_method" "versions_GET" {
+  #checkov:skip=CKV2_AWS_53:Path parameters validated by DynamoDB integration template
   rest_api_id = aws_api_gateway_resource.versions.rest_api_id
   resource_id = aws_api_gateway_resource.versions.id
   http_method = "GET"

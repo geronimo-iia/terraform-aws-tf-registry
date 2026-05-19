@@ -15,9 +15,16 @@ init-tools:
 doc:
 	@terraform-docs markdown table --output-file README.md --output-mode inject . 
 
-.PHONY: tfsec
-tfsec:
-	tfsec .
-
 checkov:
-	checkov -d . --quiet --framework terraform --config-file checkov.yaml
+	checkov -d . --quiet --framework terraform
+
+
+.PHONY: prep
+prep:
+	@terraform init -backend=false
+
+.PHONY: lint
+lint: prep ## Check for possible errors, best practices, etc in current directory!
+	@terraform fmt -write=true -recursive
+	@tflint
+

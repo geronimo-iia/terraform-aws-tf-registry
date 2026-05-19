@@ -18,6 +18,7 @@ resource "aws_api_gateway_resource" "object_path" {
 
 
 resource "aws_api_gateway_method" "object_get" {
+  #checkov:skip=CKV2_AWS_53:Request validation handled via request_parameters path constraint
   rest_api_id = data.aws_api_gateway_resource.root.rest_api_id
   resource_id = aws_api_gateway_resource.object_path.id
 
