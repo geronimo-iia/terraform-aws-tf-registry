@@ -1,81 +1,114 @@
 # Changelog
 
-## v1.2.2
+All notable changes to this project will be documented in this file.
 
-Feature:
+The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
-- add default encryption on s3 bucket and dynamo table
-- add Enable DynamoDB point in time recovery
-- add checkov and tfsec scan
+## [1.3.0 Unreleased]
 
-Fix:
+### Changed
 
-- public acl on s3
-- api gateway invoke download url acl
+- Centralize provider version constraints in root `versions.tf` (remove from child modules)
+- Add `hashicorp/external` and `hashicorp/random` providers to root module
+- Replace global `checkov.yaml` skip list with inline suppressions on each resource
+- Update `.tool-versions` to latest (terraform 1.15.3, terragrunt 1.0.5, checkov 3.2.529)
+- Simplify CI scan workflow (use `setup-python` + pip instead of asdf)
+- Pin Python 3.12.11 and checkov 3.2.529 in CI
+- Add dependabot for GitHub Actions and pip (PyJWT)
+- Align example provider versions with root module
 
-## v1.1.1
+### Fixed
 
-Fix:
+- Update provider version constraints (widen `aws ~> 5.90`, `archive ~> 2.8`, `null ~> 3.2`)
+- Remove redundant version declarations in child modules
+- Update Python lambda runtime to 3.12
+- Pin PyJWT version in requirements.txt (`>=2.8,<3`)
+- Set `reserved_concurrent_executions` to 100 to prevent runaway costs
+- Remove tfsec (deprecated, replaced by checkov)
+- Update CI workflow (ASDF installation, action versions)
+- Add `force_destroy = false` on S3 bucket to prevent accidental deletion
+- Remove unused import in authorizer lambda
 
-- archive path for lambda authorizer
-- aws provider version
-- remove constant statement id "AllowExecutionFromAPIGateway"
+## [1.2.2]
 
-## v1.1.0
+### Added
 
-Fix:
+- Default encryption on S3 bucket (SSE-S3) and DynamoDB table
+- DynamoDB point-in-time recovery
+- Checkov and tfsec security scans
 
-- refacto iam policy declaration
-- create shared common policy from storage module
-- remove unused code
-- simplify local variable usage
-- simplify code: authorizer is no more optional
-- propagate tags on role and resource
-- use terraforn name prefix for resources
+### Fixed
 
-Feat:
+- Public ACL on S3 bucket
+- API Gateway invoke download URL permissions
 
-- add usage of "X-Terraform-Get" for download API
-- add a dedicated lambda integration for download API : use s3 presigned url for all module which came fron registry bucket
+## [1.1.1]
 
-## v1.0.2
+### Fixed
 
-- documentation fix for registry.terraform.io
+- Archive path for lambda authorizer
+- AWS provider version constraint
+- Remove constant statement id "AllowExecutionFromAPIGateway"
 
-## v1.0.1
+## [1.1.0]
 
-- documentation update
-- integration to https://registry.terraform.io/modules/geronimo-iia/tf-registry/aws/latest
+### Added
 
-## v1.0.0
+- `X-Terraform-Get` header support for download API
+- Dedicated lambda integration for download API with S3 presigned URLs
 
-Features:
+### Changed
 
-- add JWT Secret initialization
-- add lambda autorizer
-- automate API gateway redeployment
-- add dedicated bucket storage
-- add python script to deploy terraform module
-- add control of dynamodb capacity (provisioned, pay per request, ...)
-- add tags on resource
-- add dynamodb capacity management and custom naming
-- add bucket custom naming
-- add storage output
+- Refactor IAM policy declarations
+- Create shared common policy from storage module
+- Simplify local variable usage
+- Authorizer is no longer optional
+- Propagate tags on roles and resources
+- Use terraform `name_prefix` for resources
 
-Docs:
+### Removed
 
-- add architecture overview
-- add example
-- add more information in readme
+- Unused code
 
-Refacto:
+## [1.0.2]
 
-- group all modules.v1 api inside the dedicated module
-- registry-store module resource is external of registry-service
-- keep default value of variable at root module level
+### Fixed
 
-Fix:
+- Documentation fix for registry.terraform.io
 
-- remove usage ot template provider: https://registry.terraform.io/providers/hashicorp/template/latest/docs#deprecation
-- fix error in default settings
+## [1.0.1]
 
+### Added
+
+- Integration to https://registry.terraform.io/modules/geronimo-iia/tf-registry/aws/latest
+
+### Fixed
+
+- Documentation update
+
+## [1.0.0]
+
+### Added
+
+- JWT secret initialization via AWS Secrets Manager
+- Lambda authorizer for API Gateway authentication
+- Automated API Gateway redeployment
+- Dedicated S3 bucket storage for module artifacts
+- Python script to deploy terraform modules
+- DynamoDB capacity management (provisioned / pay-per-request)
+- Tags on all resources
+- Custom naming for DynamoDB table and S3 bucket
+- Storage outputs (bucket name/arn, table name/arn)
+- Architecture overview documentation
+- Usage example
+
+### Changed
+
+- Group all modules.v1 API resources inside dedicated module
+- Extract registry-store module from registry-service
+- Keep default variable values at root module level
+
+### Fixed
+
+- Remove deprecated template provider
+- Fix error in default settings
