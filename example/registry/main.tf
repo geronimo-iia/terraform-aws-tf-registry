@@ -41,9 +41,6 @@ module "registry" {
   storage = {
     dynamodb = {
       name : "my-domain-registry-tfe"
-      billing_mode : "PROVISIONED"
-      read : 5
-      write : 1
     }
     bucket = {
       name : "my-domain-registry-tfe"
