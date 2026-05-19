@@ -16,6 +16,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Pin Python 3.12.11 and checkov 3.2.529 in CI
 - Add dependabot for GitHub Actions and pip (PyJWT)
 - Align example provider versions with root module
+- Replace deprecated `managed_policy_arns` and `inline_policy` with dedicated resources
+- Replace deprecated `stage_name` on `aws_api_gateway_deployment` with `aws_api_gateway_stage`
+- Add API Gateway access logging with 7-day retention
+- Add API Gateway method settings with ERROR-level execution logging
+- Fix terragrunt examples for v1 compatibility
 
 ### Fixed
 

@@ -53,12 +53,59 @@ resource "aws_api_gateway_deployment" "live" {
     module.disco,
   ]
   rest_api_id = aws_api_gateway_rest_api.root.id
-  stage_name  = "live"
   variables = {
     deployment_version = formatdate("MMDDYYYYHHmmss", timestamp())
     version_scheme     = "MMDDYYYHHmmss"
   }
   lifecycle {
     create_before_destroy = true
+  }
+}
+
+resource "aws_api_gateway_stage" "live" {
+  #checkov:skip=CKV_AWS_120:Caching not cost-effective for low-traffic registry
+  #checkov:skip=CKV_AWS_73:X-Ray tracing not needed for low-traffic registry
+  #checkov:skip=CKV2_AWS_4:Metrics not needed - access logging is sufficient for observability
+  #checkov:skip=CKV2_AWS_51:Client certificate not applicable - backends are Lambda and DynamoDB
+  #checkov:skip=CKV2_AWS_29:WAF not required - JWT auth and concurrency limits provide protection
+  deployment_id = aws_api_gateway_deployment.live.id
+  rest_api_id   = aws_api_gateway_rest_api.root.id
+  stage_name    = "live"
+  tags          = var.tags
+
+  access_log_settings {
+    destination_arn = aws_cloudwatch_log_group.api_access.arn
+    format = jsonencode({
+      requestId      = "$context.requestId"
+      ip             = "$context.identity.sourceIp"
+      caller         = "$context.identity.caller"
+      user           = "$context.identity.user"
+      requestTime    = "$context.requestTime"
+      httpMethod     = "$context.httpMethod"
+      resourcePath   = "$context.resourcePath"
+      status         = "$context.status"
+      protocol       = "$context.protocol"
+      responseLength = "$context.responseLength"
+    })
+  }
+}
+
+resource "aws_cloudwatch_log_group" "api_access" {
+  #checkov:skip=CKV_AWS_338:7-day retention is sufficient for API access logs
+  #checkov:skip=CKV_AWS_158:KMS encryption not required for access logs
+  name              = "/aws/apigateway/${var.name_prefix}/access-logs"
+  retention_in_days = 7
+  tags              = var.tags
+}
+
+resource "aws_api_gateway_method_settings" "all" {
+  #checkov:skip=CKV_AWS_225:Caching not cost-effective for low-traffic registry
+  #checkov:skip=CKV2_AWS_4:Metrics not needed - access logging is sufficient for observability
+  rest_api_id = aws_api_gateway_rest_api.root.id
+  stage_name  = aws_api_gateway_stage.live.stage_name
+  method_path = "*/*"
+
+  settings {
+    logging_level = "ERROR"
   }
 }

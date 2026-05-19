@@ -10,14 +10,18 @@ locals {
 resource "aws_iam_role" "download" {
   name_prefix        = local.function_name
   assume_role_policy = data.aws_iam_policy_document.assume_role_policy.json
-  managed_policy_arns = [
-    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  ]
-  inline_policy {
-    name   = "download"
-    policy = var.store_policy
-  }
-  tags = var.tags
+  tags               = var.tags
+}
+
+resource "aws_iam_role_policy_attachment" "download_basic_execution" {
+  role       = aws_iam_role.download.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy" "download" {
+  name   = "download"
+  role   = aws_iam_role.download.id
+  policy = var.store_policy
 }
 
 data "aws_iam_policy_document" "assume_role_policy" {

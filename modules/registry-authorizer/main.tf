@@ -53,14 +53,18 @@ resource "aws_lambda_function" "authorizer" {
 resource "aws_iam_role" "authorizer" {
   name_prefix        = local.function_name
   assume_role_policy = data.aws_iam_policy_document.authorizer_assume_role_policy.json
-  managed_policy_arns = [
-    "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-  ]
-  inline_policy {
-    name   = "authorizer"
-    policy = data.aws_iam_policy_document.authorizer.json
-  }
-  tags = var.tags
+  tags               = var.tags
+}
+
+resource "aws_iam_role_policy_attachment" "authorizer_basic_execution" {
+  role       = aws_iam_role.authorizer.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
+resource "aws_iam_role_policy" "authorizer" {
+  name   = "authorizer"
+  role   = aws_iam_role.authorizer.id
+  policy = data.aws_iam_policy_document.authorizer.json
 }
 
 data "aws_iam_policy_document" "authorizer" {

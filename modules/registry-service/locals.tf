@@ -2,7 +2,7 @@ locals {
 
   api_access_policy = var.api_type != "PRIVATE" ? var.api_access_policy : ""
   service_base_url = (
-    local.friendly_hostname_base_url != "" ? local.friendly_hostname_base_url : aws_api_gateway_deployment.live.invoke_url
+    local.friendly_hostname_base_url != "" ? local.friendly_hostname_base_url : aws_api_gateway_stage.live.invoke_url
   )
 
   hostname_enabled = var.friendly_hostname != null
