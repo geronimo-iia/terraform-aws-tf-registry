@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 
 ## [1.3.0 Unreleased]
 
+### Added
+
+- Step-by-step guide for deploy, configure, release, and pull workflow (`example/registry/readme.md`)
+- Example dummy module for testing (`example/my-module/`)
+- `.env.sample` for registry example configuration
+
 ### Changed
 
 - Centralize provider version constraints in root `versions.tf` (remove from child modules)

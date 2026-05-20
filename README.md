@@ -105,7 +105,7 @@ Use the [terraform-aws-tf-registry-cli](https://github.com/geronimo-iia/terrafor
 ## Production tips
 
 1. Fork this project into your enterprise git server and add a remote tracking this repository
-2. Deploy using the [example/registry](./example/registry/) as a starting point
+2. Deploy using the [example/registry](./example/registry/) as a starting point — see the [step-by-step guide](./example/registry/readme.md) for deploy, configure, release, and pull workflow
 3. Publish a test module, verify DynamoDB entries, run `terraform init`
 4. Integrate the [CLI client](https://github.com/geronimo-iia/terraform-aws-tf-registry-cli) into your CI/CD pipeline
 5. See [additional notes](./docs/note.md) for operational guidance
