@@ -53,10 +53,18 @@ resource "aws_api_gateway_deployment" "live" {
     module.disco,
   ]
   rest_api_id = aws_api_gateway_rest_api.root.id
-  variables = {
-    deployment_version = formatdate("MMDDYYYYHHmmss", timestamp())
-    version_scheme     = "MMDDYYYHHmmss"
+
+  triggers = {
+    redeployment = sha1(jsonencode([
+      aws_api_gateway_authorizer.main.id,
+      var.dynamodb_table_name,
+      var.lambda_authorizer_name,
+      var.lambda_download_name,
+      module.modules_v1,
+      module.disco,
+    ]))
   }
+
   lifecycle {
     create_before_destroy = true
   }

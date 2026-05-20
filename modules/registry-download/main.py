@@ -19,8 +19,13 @@ def get_download_url(namespace, module, provider, version):
     )
     return response['Item']['Source']['S']
 
-def create_presigned_url( object_name):
-    s3_client = boto3.client('s3',config=boto3.session.Config(signature_version='s3v4',))
+def create_presigned_url(object_name):
+    region = boto3.session.Session().region_name
+    s3_client = boto3.client(
+        's3',
+        region_name=region,
+        config=boto3.session.Config(signature_version='s3v4', s3={'addressing_style': 'virtual'}),
+    )
     return s3_client.generate_presigned_url(
         'get_object',
         Params={

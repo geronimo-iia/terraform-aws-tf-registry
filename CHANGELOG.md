@@ -12,8 +12,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/), and this
 - Example dummy module for testing (`example/my-module/`)
 - `.env.sample` for registry example configuration
 
+### Removed
+
+- `null_resource` for API Gateway redeployment (redundant — child module already handles it)
+- `null` provider dependency
+- `timestamp()`-based forced redeployment on every apply
+
 ### Changed
 
+- API Gateway deployment now uses content-based `triggers` (hash of authorizer, integrations, modules) — only redeploys when the API structure actually changes
 - Centralize provider version constraints in root `versions.tf` (remove from child modules)
 - Add `hashicorp/external` and `hashicorp/random` providers to root module
 - Replace global `checkov.yaml` skip list with inline suppressions on each resource

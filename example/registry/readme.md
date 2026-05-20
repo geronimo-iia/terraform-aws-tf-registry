@@ -95,7 +95,7 @@ AWS_REGION=eu-west-1 tfr release \
   --name my-module \
   --system aws \
   --version 1.0.0 \
-  --source ./my-module.tar.gz
+  --source ../my-module.tar.gz
 ```
 
 This uploads the archive to S3 and registers the module in DynamoDB with an S3 signed URL as source.
