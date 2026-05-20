@@ -4,13 +4,17 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/), and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [1.3.0 Unreleased]
+## [1.3.0]
 
 ### Added
 
 - Step-by-step guide for deploy, configure, release, and pull workflow (`example/registry/readme.md`)
 - Example dummy module for testing (`example/my-module/`)
 - `.env.sample` for registry example configuration
+
+### Fixed
+
+- Download Lambda: use regional S3 endpoint for presigned URLs (fixes 403 for buckets outside `us-east-1`)
 
 ### Removed
 
