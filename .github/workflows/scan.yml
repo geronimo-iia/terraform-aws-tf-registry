@@ -1,0 +1,34 @@
+name: security
+
+on:
+  push:
+    branches:
+      - "main"
+      - "feature/*"
+  pull_request:
+    branches: ["main"]
+  schedule:
+    - cron: "37 0 * * 0"
+
+jobs:
+  security:
+    name: Run checkov scan
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Clone repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12.11"
+          cache: "pip"
+
+      - name: Install checkov
+        run: pip install checkov==3.2.529
+
+      - name: Run checkov
+        run: checkov -d . --quiet --framework terraform

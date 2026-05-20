@@ -1,4 +1,5 @@
 resource "aws_api_gateway_method" "download_GET" {
+  #checkov:skip=CKV2_AWS_53:Path parameters validated by lambda integration
   rest_api_id = aws_api_gateway_resource.download.rest_api_id
   resource_id = aws_api_gateway_resource.download.id
   http_method = "GET"

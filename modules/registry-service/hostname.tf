@@ -13,7 +13,7 @@ resource "aws_api_gateway_domain_name" "main" {
 
 resource "aws_api_gateway_base_path_mapping" "main" {
   count       = length(aws_api_gateway_domain_name.main)
-  api_id      = aws_api_gateway_deployment.live.rest_api_id
-  stage_name  = aws_api_gateway_deployment.live.stage_name
+  api_id      = aws_api_gateway_rest_api.root.id
+  stage_name  = aws_api_gateway_stage.live.stage_name
   domain_name = aws_api_gateway_domain_name.main[count.index].domain_name
 }

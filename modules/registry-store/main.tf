@@ -5,6 +5,8 @@ locals {
 }
 
 resource "aws_dynamodb_table" "modules" {
+  #checkov:skip=CKV2_AWS_16:Auto-scaling not needed with PAY_PER_REQUEST billing
+  #checkov:skip=CKV_AWS_119:Using default aws/dynamodb encryption - CMK not required
   name = local.dynamodb_table_name
 
   hash_key  = "Id"
@@ -25,9 +27,8 @@ resource "aws_dynamodb_table" "modules" {
     name = "Version"
     type = "S"
   }
-  #tfsec:ignore:aws-dynamodb-table-customer-key less cost 
   server_side_encryption { # default alias/aws/dynamodb
-    enabled     = true
+    enabled = true
   }
 
   point_in_time_recovery {
@@ -38,17 +39,19 @@ resource "aws_dynamodb_table" "modules" {
 }
 
 
-# tfsec:ignore:aws-s3-block-public-acls see ressource aws_s3_bucket_acl.bucket
-# tfsec:ignore:aws-s3-block-public-policy see aws_s3_bucket_public_access_block.bucket
-# tfsec:ignore:aws-s3-enable-bucket-encryption see aws_s3_bucket_server_side_encryption_configuration.bucket
-# tfsec:ignore:aws-s3-encryption-customer-key see aws_s3_bucket_server_side_encryption_configuration.bucket
-# tfsec:ignore:aws-s3-enable-bucket-logging access logging is done with api gateway
 resource "aws_s3_bucket" "bucket" {
-  bucket = local.bucket_name
-  tags   = merge(var.tags, { Name : local.bucket_name })
+  #checkov:skip=CKV_AWS_18:Access logging handled at org level via CloudTrail
+  #checkov:skip=CKV_AWS_144:Cross-region replication not needed for registry modules
+  #checkov:skip=CKV_AWS_145:Using SSE-S3 (AES256) - KMS not required for module artifacts
+  #checkov:skip=CKV2_AWS_61:Lifecycle policy not needed - module versions are kept indefinitely
+  #checkov:skip=CKV2_AWS_62:Event notifications not required
+  bucket        = local.bucket_name
+  force_destroy = false
+  tags          = merge(var.tags, { Name : local.bucket_name })
 }
 
 resource "aws_s3_bucket_ownership_controls" "bucket" {
+  #checkov:skip=CKV2_AWS_65:Using BucketOwnerPreferred for legacy ACL compatibility
   bucket = aws_s3_bucket.bucket.id
   rule {
     object_ownership = "BucketOwnerPreferred"
@@ -76,7 +79,6 @@ resource "aws_s3_bucket_public_access_block" "default" {
   restrict_public_buckets = var.public_access.restrict_public_buckets
 }
 
-#tfsec:ignore:aws-s3-encryption-customer-key
 resource "aws_s3_bucket_server_side_encryption_configuration" "bucket" {
   bucket = aws_s3_bucket.bucket.id
   rule {

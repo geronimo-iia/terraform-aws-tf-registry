@@ -17,6 +17,7 @@ resource "random_password" "secret" {
 }
 
 resource "aws_secretsmanager_secret" "secret" {
+  #checkov:skip=CKV2_AWS_57:Automatic rotation not needed - JWT signing key is long-lived by design
   name       = var.secret_key_name
   kms_key_id = local.kms_key_id
   tags       = merge(var.tags, { Name : var.secret_key_name })

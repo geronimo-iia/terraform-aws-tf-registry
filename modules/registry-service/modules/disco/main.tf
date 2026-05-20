@@ -17,6 +17,8 @@ resource "aws_api_gateway_resource" "well_known_terraform" {
 }
 
 resource "aws_api_gateway_method" "well_known_terraform_GET" {
+  #checkov:skip=CKV_AWS_59:Service discovery endpoint must be public per Terraform registry protocol
+  #checkov:skip=CKV2_AWS_53:Request validation not needed for static discovery endpoint
   rest_api_id   = aws_api_gateway_resource.well_known_terraform.rest_api_id
   resource_id   = aws_api_gateway_resource.well_known_terraform.id
   http_method   = "GET"

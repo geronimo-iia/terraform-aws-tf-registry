@@ -1,4 +1,3 @@
-from curses import nonl
 from typing import Union, Optional
 import jwt
 import os

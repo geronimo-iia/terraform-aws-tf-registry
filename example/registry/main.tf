@@ -9,7 +9,6 @@ data "aws_route53_zone" "selected" {
 }
 
 # create ACME Certificat
-
 resource "aws_acm_certificate" "certificate" {
   domain_name       = local.registry_domain_name
   validation_method = "DNS"
@@ -17,6 +16,7 @@ resource "aws_acm_certificate" "certificate" {
     create_before_destroy = true
   }
 }
+
 # create DNS record for validate
 resource "aws_route53_record" "certificate" {
   allow_overwrite = true
@@ -41,9 +41,9 @@ module "registry" {
   storage = {
     dynamodb = {
       name : "my-domain-registry-tfe"
-      billing_mode : "PROVISIONED"
-      read : 5
-      write : 1
+      billing_mode = "PROVISIONED"
+      read         = 1
+      write        = 1
     }
     bucket = {
       name : "my-domain-registry-tfe"

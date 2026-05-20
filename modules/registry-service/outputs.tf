@@ -25,5 +25,5 @@ output "rest_api_id" {
 
 output "rest_api_stage_name" {
   description = "The id of the API Gateway deployment stage managed by this module."
-  value       = aws_api_gateway_deployment.live.stage_name
+  value       = aws_api_gateway_stage.live.stage_name
 }
